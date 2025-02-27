@@ -14,10 +14,8 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
 
   return (
     <div className="bg-[#dbcfc9] min-h-screen flex justify-center items-center p-4">
-      {/* Card Container */}
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
         
-        {/* Left Side: Image Slider (Sticky for Desktop) */}
         <div className="lg:w-1/2 w-full lg:sticky top-10">
           <div className="sticky top-0 bg-white z-10">
             <Slider {...settings}>
@@ -28,19 +26,17 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
               ))}
             </Slider>
           </div>
-
-          {/* Desktop Buttons */}
+          
           <div className="hidden lg:flex gap-4 mt-6">
-            <button className="flex-1 bg-black font-bold text-[#66D2CE] py-3 rounded-lg shadow-md hover:bg-gray-900">
+            <button className="flex-1 bg-[#FFD814] text-black font-bold py-3 rounded-lg shadow-md hover:bg-[#F7CA00]">
               Add to Cart
             </button>
-            <button className="flex-1 bg-black font-bold text-[#66D2CE] py-3 rounded-lg shadow-md hover:bg-gray-900">
+            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
               Buy Now
             </button>
           </div>
         </div>
 
-        {/* Right Side: Scrollable Details */}
         <div className="lg:w-1/2 w-full mt-6 lg:mt-0 lg:pl-8 overflow-y-auto max-h-full lg:max-h-[80vh] flex-1">
           <h1 className="text-2xl font-bold text-gray-800">{name}</h1>
           <p className="text-lg text-gray-700 mt-2">{description}</p>
@@ -54,13 +50,12 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
           </ul>
         </div>
 
-        {/* Mobile Buttons (Sticky at Bottom) */}
         <div className="lg:hidden w-full bg-white shadow-lg">
           <div className="sticky bottom-0 left-0 flex gap-4 p-4">
-            <button className="flex-1 bg-black text-[#66D2CE] font-bold py-3 rounded-lg shadow-md hover:bg-gray-900">
+            <button className="flex-1 bg-[#FFD814] text-black font-bold py-3 rounded-lg shadow-md hover:bg-[#F7CA00]">
               Add to Cart
             </button>
-            <button className="flex-1 bg-black text-[#66D2CE] font-bold py-3 rounded-lg shadow-md hover:bg-gray-900">
+            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
               Buy Now
             </button>
           </div>
@@ -70,7 +65,6 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
   );
 };
 
-// Dummy Data
 const dummyProduct = {
   id: 1,
   images: [
@@ -91,7 +85,6 @@ const dummyProduct = {
   ],
 };
 
-// Render Component
 export default function App() {
   return <ProductCardExtended {...dummyProduct} />;
 }

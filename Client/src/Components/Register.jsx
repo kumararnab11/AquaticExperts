@@ -36,7 +36,7 @@ const Register = () => {
       <div className="bg-white shadow-lg rounded-lg flex flex-col-reverse md:flex-row-reverse w-full max-w-md md:max-w-2xl overflow-hidden">
         
         {/* Welcome Section (Bottom on Mobile, Right on Desktop) */}
-        <div className="bg-teal-400 text-black flex flex-col justify-center items-center p-8 md:w-1/2 w-full 
+        <div className="bg-gradient-to-r from-teal-400 to-teal-600 text-black flex flex-col justify-center items-center p-8 md:w-1/2 w-full 
           rounded-t-[50px] md:rounded-l-[80px] md:rounded-tr-none">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">Welcome Back!</h2>
           <p className="text-sm md:text-base mb-4">Already have an account?</p>
@@ -100,7 +100,7 @@ const Register = () => {
                 </div>
             }
 
-            <button type="submit" className="w-full bg-teal-400 text-black py-3 rounded-lg font-semibold shadow-md">
+            <button type="submit" className="w-full bg-gradient-to-r from-teal-400 to-teal-600 text-black py-3 rounded-lg font-semibold shadow-md">
               Register
             </button>
           </form>

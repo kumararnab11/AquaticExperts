@@ -7,7 +7,7 @@ const Cart = () => {
       id: 1,
       image: "https://via.placeholder.com/80",
       title: "Lorem Ipsum",
-      price: 8.50,
+      price: 8.5,
       quantity: 1,
     },
     {
@@ -40,8 +40,7 @@ const Cart = () => {
     setCartItems((prev) =>
       prev.map((item) =>
         item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
+          ? { ...item, quantity: item.quantity - 1 } : item
       )
     );
   };
@@ -52,14 +51,16 @@ const Cart = () => {
   };
 
   // Calculate total price
-  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  const totalPrice = cartItems
+    .reduce((total, item) => total + item.price * item.quantity, 0)
+    .toFixed(2);
 
   return (
     <div className="max-w-3xl mx-auto my-8 p-6 rounded-lg shadow-lg text-white">
       <h2 className="text-3xl font-bold text-center text-teal-700 bg-clip-text underline underline-offset-8 mb-6">
         Shopping Cart
       </h2>
-      
+
       {/* Cart Items */}
       <div className="space-y-4">
         {cartItems.length > 0 ? (
@@ -87,7 +88,7 @@ const Cart = () => {
             <span className="text-teal-700">Total:</span>
             <span className="text-teal-700">${totalPrice}</span>
           </div>
-          <button className="w-full mt-4 px-6 py-3 bg-black text-teal-500 font-bold rounded-lg transition duration-200">
+          <button className="w-full mt-4 px-6 py-3 bg-[#FF9900] text-black font-bold rounded-lg transition duration-200 hover:bg-[#E68A00]">
             Buy Now
           </button>
         </div>

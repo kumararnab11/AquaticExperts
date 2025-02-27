@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ProductCard = ({ image, title, price, description }) => {
+const ProductCard = ({ image, title, price, description, originalPrice }) => {
+  const [quantity, setQuantity] = useState(0);
+
+  // Calculate discount percentage
+  const discountPercentage = Math.round(((originalPrice - price) / originalPrice) * 100);
+
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-[270px] border border-gray-200 transform transition duration-300 hover:scale-105 hover:shadow-lg">
+    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-[270px] border border-gray-200 transform transition duration-300 hover:scale-105 hover:shadow-lg relative">
+      
+      {/* Discount Badge */}
+      {discountPercentage > 0 && (
+        <div className="absolute top-2 left-2 bg-transparent text-red-600 text-xs font-bold px-2 py-1 rounded">
+          {discountPercentage}% OFF
+        </div>
+      )}
+
       {/* Product Image */}
       <div className="w-full h-44 sm:h-48 md:h-52 overflow-hidden">
         <img src={image} alt={title} className="w-full h-full object-cover rounded-t-2xl" />
@@ -13,12 +26,35 @@ const ProductCard = ({ image, title, price, description }) => {
         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
         <p className="text-gray-600 text-sm mt-1 line-clamp-2">{description}</p>
 
-        {/* Price & Button */}
+        {/* Price & Cart Actions */}
         <div className="mt-4 flex justify-between items-center">
           <span className="text-teal-600 font-bold text-lg">${price}</span>
-          <button className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-teal-700 transition">
-            Add to Cart
-          </button>
+
+          {/* Cart Buttons */}
+          {quantity === 0 ? (
+            <button
+              className="bg-[#FF9900] text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#E68A00] transition"
+              onClick={() => setQuantity(1)}
+            >
+              Add to Cart
+            </button>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <button
+                className="bg-gray-300 px-2 py-1 rounded text-lg font-bold hover:bg-gray-400 transition"
+                onClick={() => setQuantity(quantity - 1)}
+              >
+                -
+              </button>
+              <span className="text-lg font-semibold">{quantity}</span>
+              <button
+                className="bg-gray-300 px-2 py-1 rounded text-lg font-bold hover:bg-gray-400 transition"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                +
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

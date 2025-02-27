@@ -40,7 +40,7 @@ const CategorySection = () => {
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,

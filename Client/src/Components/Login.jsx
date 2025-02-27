@@ -17,7 +17,7 @@ const Login = () => {
       <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row w-full max-w-md md:max-w-2xl overflow-hidden">
         
         {/* Welcome Section */}
-        <div className="bg-teal-400 text-black flex flex-col justify-center items-center p-8 md:w-1/2 w-full 
+        <div className="bg-gradient-to-r from-teal-400 to-teal-600 text-black flex flex-col justify-center items-center p-8 md:w-1/2 w-full 
           rounded-b-[50px] md:rounded-r-[80px] md:rounded-bl-none">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">Hello, Welcome!</h2>
           <p className="text-sm md:text-base mb-4">Don't have an account?</p>
@@ -69,7 +69,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-teal-400 text-black py-3 rounded-lg font-semibold shadow-md"
+              className="w-full bg-gradient-to-r from-teal-400 to-teal-600 text-black py-3 rounded-lg font-semibold shadow-md"
             >
               Login
             </button>

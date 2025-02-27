@@ -14,6 +14,7 @@ import Filter from './Components/Filter/Filter'
 import FishFood from './Components/FishFood/FishFood'
 import ProductCardExtended from './Components/ProductCardExtended'
 import Soil from './Components/Soil/Soil'
+import WaterTypeButtons from './Components/WaterTypeButtons'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         element:<div className='bg-[#dbcfc9]'>
         <Navbar/>
         <SliderCard/>
+        <WaterTypeButtons/>
         <CategorySection/>
         <BestSellersSlider/>
         <LifeAyuSlider/>
