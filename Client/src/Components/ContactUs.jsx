@@ -10,6 +10,18 @@ const ContactUs = () => {
           <p className="text-gray-300 max-w-md mx-auto md:mx-0">
             Want to get in touch? We'd love to hear from you. Here's how you can reach us.
           </p>
+          <div className="mt-6">
+            <p className="text-gray-300">📞 Phone: 
+              <a href="https://wa.me/8123013525" className="font-semibold text-teal-400 hover:underline" target="_blank" rel="noopener noreferrer">
+                8123013525
+              </a>
+            </p>
+            <p className="text-gray-300">📧 Email: 
+              <a href="mailto:anil@aquaticexperts.in" className="font-semibold text-teal-400 hover:underline">
+                anil@aquaticexperts.in
+              </a>
+            </p>
+          </div>
         </div>
         
         {/* Right Image Section */}
@@ -32,6 +44,9 @@ const ContactUs = () => {
           <p className="text-gray-600 mt-2 text-sm sm:text-base">
             Interested in our services? Just pick up the phone to chat with our sales team.
           </p>
+          <a href="https://wa.me/8123013525" className="text-teal-600 font-semibold mt-2 hover:underline" target="_blank" rel="noopener noreferrer">
+            8123013525
+          </a>
         </div>
         
         {/* Support Card */}
@@ -41,6 +56,9 @@ const ContactUs = () => {
           <p className="text-gray-600 mt-2 text-sm sm:text-base">
             Need help? Our support team is here for you.
           </p>
+          <a href="mailto:anil@aquaticexperts.in" className="text-teal-600 font-semibold mt-2 hover:underline">
+            anil@aquaticexperts.in
+          </a>
         </div>
       </div>
     </div>

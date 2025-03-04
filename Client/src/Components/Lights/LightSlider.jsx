@@ -4,24 +4,18 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router";
-import SpongeFilterImg from "../../assets/SpongeImg.jpg";
-import HangOnBackImg from "../../assets/HangOnBackImg.jpg";
-import CanisterFilterImg from "../../assets/CanisterImg.jpg";
-import InternalPowerFilterImg from "../../assets/InternalPowerImg.jpg";
-import UndergravelFilterImg from "../../assets/UndergravelImg.jpg";
-import BioMediaImg from "../../assets/BioMediaImg.jpg";
-import MechanicalMediaImg from "../../assets/MechanicalMediaImg.jpg";
-import ChemicalMediaImg from "../../assets/ChemicalMediaImg.jpg";
+import LEDAqLightsImg from "../../assets/LEDAqLightsImg.webp";
+import PlantedTankLightImg from "../../assets/PlantedTankLightImg.png";
+import MarineReefTankLightsImg from "../../assets/MarineReefTankLightsImg.jpg";
+import NanoTankLightingImg from "../../assets/NanoTankLightingImg.png";
+import ClipOnAdjustableLightsImg from "../../assets/ClipOnAdjustableLightsImg.jpg";
 
-const fishCategories = [
-  { name: "Sponge Filter", image: SpongeFilterImg, path: "sponge-filter" },
-  { name: "Hang on Back", image: HangOnBackImg, path: "hang-on-back" },
-  { name: "Canister Filter", image: CanisterFilterImg, path: "canister-filter" },
-  { name: "Internal Power Filters", image: InternalPowerFilterImg, path: "internal-power-filters" },
-  { name: "Undergravel Filters", image: UndergravelFilterImg, path: "undergravel-filters" },
-  { name: "Bio Media", image: BioMediaImg, path: "bio-media" },
-  { name: "Mechanical Media", image: MechanicalMediaImg, path: "mechanical-media" },
-  { name: "Chemical Media", image: ChemicalMediaImg, path: "chemical-media" },
+const lightingCategories = [
+  { name: "LED Aq. Lights", image: LEDAqLightsImg, path: "led-aq-lights" },
+  { name: "Planted Tank Light", image: PlantedTankLightImg, path: "planted-tank-light" },
+  { name: "Marine & Reef Tank Lights", image: MarineReefTankLightsImg, path: "marine-reef-tank-lights" },
+  { name: "Nano Tank Lighting", image: NanoTankLightingImg, path: "nano-tank-lighting" },
+  { name: "Clip-on & Adjustable Lights", image: ClipOnAdjustableLightsImg, path: "clip-on-adjustable-lights" },
 ];
 
 // Custom Next Arrow Component
@@ -44,7 +38,7 @@ const CustomPrevArrow = ({ onClick }) => (
   </button>
 );
 
-const FilterSlider = () => {
+const LightSlider = () => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -75,7 +69,7 @@ const FilterSlider = () => {
   return (
     <div className="w-full max-w-5xl mx-auto mt-6 relative overflow-hidden px-4">
       <Slider {...settings}>
-        {fishCategories.map(({ name, image, path }, index) => (
+        {lightingCategories.map(({ name, image, path }, index) => (
           <div key={index} className="px-2">
             <div
               className="flex flex-col items-center justify-center bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] text-white w-36 h-44 rounded-xl shadow-md cursor-pointer p-2"
@@ -93,4 +87,4 @@ const FilterSlider = () => {
   );
 };
 
-export default FilterSlider;
+export default LightSlider;

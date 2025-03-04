@@ -3,14 +3,22 @@ import Slider from "react-slick";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from "react-router";
+import AlgaeScrapersImg from "../../assets/AlgaeScrapersImg.jpg";
+import AquascapingToolsImg from "../../assets/AquascapingToolsImg.jpg";
+import WaterTestingKitImg from "../../assets/WaterTestingKitImg.jpg";
+import FishNetsCatchingToolImg from "../../assets/FishNetsCatchingToolImg.jpg";
+import WaterChangersSiphonsImg from "../../assets/WaterChangersSiphonsImg.jpg";
+import CO2SystemsImg from "../../assets/CO2SystemsImg.jpg";
 
-const categories = [
-    { name: "Air Pump", icon: "💨", path: "air-pump" }, 
-    { name: "Thermometer", icon: "🌡️", path: "thermometer" }, 
-    { name: "Scaping Tools", icon: "🛠️", path: "scaping-tools" }, 
-    { name: "Other Accessories", icon: "🎒", path: "other-accessories" }
+const toolsCategories = [
+  { name: "Algae Scrapers", image: AlgaeScrapersImg, path: "algae-scrapers" },
+  { name: "Aquascaping Tools", image: AquascapingToolsImg, path: "aquascaping-tools" },
+  { name: "Water Testing Kit", image: WaterTestingKitImg, path: "water-testing-kit" },
+  { name: "Fish Nets & Catching Tool", image: FishNetsCatchingToolImg, path: "fish-nets-catching-tool" },
+  { name: "Water Changers & Siphons", image: WaterChangersSiphonsImg, path: "water-changers-siphons" },
+  { name: "CO₂ Systems", image: CO2SystemsImg, path: "co2-systems" },
 ];
-
 
 // Custom Next Arrow Component
 const CustomNextArrow = ({ onClick }) => (
@@ -32,17 +40,18 @@ const CustomPrevArrow = ({ onClick }) => (
   </button>
 );
 
-const FilterSlider = () => {
+const AccSlider = () => {
+  const navigate = useNavigate();
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: true,
-    nextArrow: <CustomNextArrow />,
-    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />, 
+    prevArrow: <CustomPrevArrow />, 
     responsive: [
       {
         breakpoint: 1024,
@@ -50,23 +59,28 @@ const FilterSlider = () => {
       },
       {
         breakpoint: 768,
-        settings: { slidesToShow: 4 ,arrows: false},
+        settings: { slidesToShow: 3, arrows: false },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 3 ,arrows: false},
+        settings: { slidesToShow: 2, arrows: false },
       },
     ],
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-6 relative overflow-hidden">
+    <div className="w-full max-w-5xl mx-auto mt-6 relative overflow-hidden px-4">
       <Slider {...settings}>
-        {categories.map(({ name, icon }, index) => (
+        {toolsCategories.map(({ name, image, path }, index) => (
           <div key={index} className="px-2">
-            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] text-white w-24 h-24 rounded-xl shadow-md">
-              <span className="text-3xl">{icon}</span>
-              <span className="text-sm mt-2">{name}</span>
+            <div
+              className="flex flex-col items-center justify-center bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] text-white w-36 h-44 rounded-xl shadow-md cursor-pointer p-2"
+              onClick={() => navigate(path)}
+            >
+              <div className="w-32 h-36 overflow-hidden">
+                <img src={image} alt={name} className="w-full h-full object-fill rounded-lg" />
+              </div>
+              <span className="text-sm mt-1 text-center">{name}</span>
             </div>
           </div>
         ))}
@@ -75,4 +89,4 @@ const FilterSlider = () => {
   );
 };
 
-export default FilterSlider;
+export default AccSlider;

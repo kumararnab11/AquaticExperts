@@ -4,15 +4,18 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate } from "react-router";
+import fishFoodImg from "../assets/FishFoodImg.jpg";
+import SoilImg from "../assets/SoilImg.jpg";
+import FilterImg from "../assets/FilterImg.jpg";
+import LightImg from "../assets/LightImg.jpg";
+import ToolsImg from "../assets/ToolsImg.jpg";
 
 const categories = [
-  { name: "Fish Foods", icon: "🐠",path:"fishfoods" },
-  { name: "Soil", icon: "🪵",path:"soil" },
-  { name: "Medicines", icon: "💊",path:"medicines" },
-  { name: "Filter", icon: "⚙️",path:"filter" },
-  { name: "Light", icon: "💡",path:"light" },
-  { name: "CO2", icon: "🌿",path:"co2" },
-  { name: "Accessories", icon: "🔧",path:"accessories" },
+  { name: "Fish Foods", image: fishFoodImg, path: "fishfoods" },
+  { name: "Soil & Substrates", image: SoilImg, path: "soil" },
+  { name: "Filter & Media", image: FilterImg, path: "filter" },
+  { name: "Light", image: LightImg, path: "light" },
+  { name: "Tools", image: ToolsImg, path: "tools" },
 ];
 
 // Custom Next Arrow Component
@@ -36,17 +39,17 @@ const CustomPrevArrow = ({ onClick }) => (
 );
 
 const CategorySection = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 6,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: true,
-    nextArrow: <CustomNextArrow />,
-    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />, 
+    prevArrow: <CustomPrevArrow />, 
     responsive: [
       {
         breakpoint: 1024,
@@ -54,25 +57,26 @@ const CategorySection = () => {
       },
       {
         breakpoint: 768,
-        settings: { slidesToShow: 4 ,arrows: false},
+        settings: { slidesToShow: 3, arrows: false },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 3 ,arrows: false},
+        settings: { slidesToShow: 2, arrows: false },
       },
     ],
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-6 relative overflow-hidden">
+    <div className="w-full max-w-5xl mx-auto mt-6 relative overflow-hidden px-4">
       <Slider {...settings}>
-        {categories.map(({ name, icon,path }, index) => (
+        {categories.map(({ name, image, path }, index) => (
           <div key={index} className="px-2">
-            <div className="flex flex-col items-center justify-center bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] text-white w-24 h-24 rounded-xl shadow-md"
-              onClick={()=>navigate(path)}
+            <div
+              className="flex flex-col items-center justify-center bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] text-white w-36 h-44 rounded-xl shadow-md cursor-pointer p-2"
+              onClick={() => navigate(path)}
             >
-              <span className="text-3xl">{icon}</span>
-              <span className="text-sm mt-2">{name}</span>
+              <img src={image} alt={name} className="w-36 h-44 object-cover rounded-lg" />
+              <span className="text-sm mt-1 text-center">{name}</span>
             </div>
           </div>
         ))}
