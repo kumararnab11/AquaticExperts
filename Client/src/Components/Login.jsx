@@ -1,16 +1,48 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const API_BASE_URL = "http://localhost:4000/api/v1";
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPass] = useState("");
+
   const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
+
+      if (response.data.success) {
+        console.log("Login Successful:", response.data);
+        toast.success(response.data.message || "Login Successful!");
+        // Redirect the user after successful login
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "Login failed! Please try again.");
+      }
+    } catch (error) {
+      console.error("Error Logging In:", error);
+
+      if (error.response) {
+        toast.error(error.response.data?.message || "Invalid email or password!");
+      } else if (error.request) {
+        toast.error("No response from server. Please try again.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Login");
-    //validation
+    handleLogin();
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#dbcfc9] px-4">
@@ -34,12 +66,14 @@ const Login = () => {
           <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-black">Login</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* Username */}
+            {/* Email */}
             <div className="mb-4">
               <input
-                type="text"
-                placeholder="Username"
+                type="email"
+                placeholder="Email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:outline-none focus:border-[#5DEECB] text-black"
               />
             </div>
@@ -51,6 +85,8 @@ const Login = () => {
                 placeholder="Password"
                 required
                 minLength={6}
+                value={password}
+                onChange={(e) => setPass(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-400 rounded-lg focus:outline-none focus:border-[#5DEECB] text-black"
               />
               <button
@@ -85,6 +121,8 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
