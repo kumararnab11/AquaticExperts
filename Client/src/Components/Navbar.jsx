@@ -2,10 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { Menu, X, User, ShoppingCart, Package, MapPin, Settings, LogOut } from "lucide-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [cartItemCount, setCartItemCount] = useState(3);
+  const [isLoggedIn, setIsLoggedIn] = useState(user?true:false);
+  const [cartItemCount, setCartItemCount] = useState(user?user.cart.size():'-1');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const location = useLocation();
   const profileRef = useRef(null);

@@ -3,19 +3,13 @@ import {createBrowserRouter,RouterProvider } from "react-router-dom"
 import Login from '../src/Components/Login'
 import Register from '../src/Components/Register'
 import Navbar from '../src/Components/Navbar'
-import SliderCard from '../src/Components/SliderCard'
-import CategorySection from '../src/Components/CategorySection'
-import BestSellersSlider from './Components/BestSeller'
-import Products from './Components/Products'
 import ContactUs from './Components/ContactUs'
-import LifeAyuSlider from './Components/LifeAyuSlider'
 import Cart from './Components/Cart'
 import Filter from './Components/Filter/Filter'
 import FishFood from './Components/FishFood/FishFood'
 import ProductCardExtended from './Components/ProductCardExtended'
 import Soil from './Components/Soil/Soil'
 import Light from './Components/Lights/Light'
-import WaterTypeButtons from './Components/WaterTypeButtons'
 import Orders from './Orders'
 import Addresses from './Components/Addresses'
 import SearchedItems from './Components/SearchedItems'
@@ -24,6 +18,7 @@ import Blogs from './Components/Blogs'
 import Accessories from './Components/Accessories/Accessories'
 import SubCategory from './Components/SubCategory'
 import NotFound from './Components/NotFound'
+import Home from './Components/Home'
 
 function App() {
 
@@ -32,13 +27,7 @@ function App() {
       {
         path:'/',
         element:<div className='bg-[#dbcfc9]'>
-        <Navbar/>
-        <SliderCard/>
-        <WaterTypeButtons/>
-        <CategorySection/>
-        <BestSellersSlider/>
-        <LifeAyuSlider/>
-        <Products/>
+        <Home/>
         </div>
       },
       {

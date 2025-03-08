@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = "http://localhost:4000/api/v1";
+const API_BASE_URL = "http://localhost:4500/api/v1";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -82,7 +82,7 @@ const Register = () => {
       if (response.data.success) {
         toast.success(response.data.message);
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 3000);
       } else {
         toast.error(response.data.message);

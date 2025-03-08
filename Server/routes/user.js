@@ -1,13 +1,24 @@
 const express = require("express");
-const routes = express.Router();
+const router = express.Router();
 
-const {login,signup} = require("../controllers/Auth");
-const {sendotp} = require("../controllers/sendotp");
-const {verifyotp} = require("../controllers/verifyotp");
+const { login, signup } = require("../controllers/Auth");
+const { sendotp } = require("../controllers/sendotp");
+const { verifyotp } = require("../controllers/verifyotp");
+const { authMiddleware } = require("../Middlewires/auth");
+const {getUser}= require("../Middlewires/getUser")
 
-routes.post("/login",login);
-routes.post("/signup",signup);
-routes.post("/sendotp",sendotp);
-routes.post("/verifyotp",verifyotp);
+router.post("/login", login);
+router.post("/signup", signup);
+router.post("/sendotp", sendotp);
+router.post("/verifyotp", verifyotp);
 
-module.exports=routes;
+router.get("/dashboard", authMiddleware, getUser, (req, res) => {
+    console.log("User ID:", req.user.id);
+    return res.status(200).json({
+        success: true,
+        message: "Welcome to the dashboard",
+        fetchedUser: req.fetchedUser
+    });
+});
+
+module.exports = router;

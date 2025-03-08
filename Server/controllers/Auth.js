@@ -82,10 +82,13 @@ exports.login= async (req,res)=>{
 
             const options = {
                 expires: new Date(Date.now()+ 10 * 24 * 60 * 60 * 1000),
-                httpOnly:true
+                httpOnly:true,
+                secure:false
             }
 
-            return res.cookie("token_cookie",token,options).status(200).json({
+            res.cookie("token_cookie",token,options);
+
+            return res.status(200).json({
                 success:true,
                 message:"User logged in successfully",
                 token,
@@ -96,6 +99,18 @@ exports.login= async (req,res)=>{
                     token:token
                 },
             })
+
+            // return res.cookie("token_cookie",token,options).status(200).json({
+            //     success:true,
+            //     message:"User logged in successfully",
+            //     token,
+            //     user: {
+            //         _id: existingUser._id,
+            //         email: existingUser.email,
+            //         name: existingUser.name,
+            //         token:token
+            //     },
+            // })
         }
         else{
             return res.status(403).json({
