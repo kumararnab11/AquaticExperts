@@ -3,6 +3,8 @@ import { MapPin, Trash2, Plus, Phone, Landmark } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { update } from "../redux/UserSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddressComponent = () => {
   const API_BASE_URL = "http://localhost:4000/api/v1";
@@ -35,11 +37,13 @@ const AddressComponent = () => {
         { withCredentials: true }
       );
 
-      console.log("Address deleted:", response.data.updatedUser);
+      //console.log("Address deleted:", response.data.updatedUser);
 
       dispatch(update(response.data.updatedUser)); // ✅ Update Redux with latest user data
+      toast.success("Address deleated successfully")
     } catch (error) {
-      console.error("Error deleting address:", error);
+      //console.error("Error deleting address:", error);
+      toast.error("Address deleate unsuccessfully")
     }
   };
 
@@ -58,7 +62,7 @@ const AddressComponent = () => {
 
       if (updatedUser) {
         dispatch(update(updatedUser)); // ✅ Update Redux with latest user data
-
+        toast.success("New addeess added")
         setIsFormOpen(false); // Close form
         // Reset form fields
         setNewAddress({
@@ -72,7 +76,8 @@ const AddressComponent = () => {
         });
       }
     } catch (error) {
-      console.error("Error adding address:", error);
+      //console.error("Error adding address:", error);
+      toast.error("Error in adding new address")
     }
   };
 
@@ -223,6 +228,7 @@ const AddressComponent = () => {
           </div>
         </form>
       )}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

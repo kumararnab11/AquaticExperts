@@ -17,10 +17,10 @@ function Home() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            console.log("Fetching user...");  // ✅ Check if this logs
+            //console.log("Fetching user...");  // ✅ Check if this logs
             try {
                 const response = await axios.get(`${API_BASE_URL}/dashboard`, { withCredentials: true });
-                console.log("API Response:", response.data);  // ✅ Check API response
+                //console.log("API Response:", response.data);  // ✅ Check API response
                 dispatch(update(response.data.fetchedUser));  
             } catch (error) {
                 console.error("Error fetching user:", error);
@@ -30,9 +30,9 @@ function Home() {
     }, []);
     
 
-    useEffect(() => {
-        console.log("Updated user:", user);
-    }, [user]); // ✅ Logs when user state updates
+    // useEffect(() => {
+    //     console.log("Updated user:", user);
+    // }, [user]); 
 
     return (
         <div>
