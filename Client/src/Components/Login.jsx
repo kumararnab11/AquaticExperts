@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const API_BASE_URL = "http://localhost:41000/api/v1";
+  const API_BASE_URL = "http://localhost:4000/api/v1";
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");

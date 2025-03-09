@@ -1,30 +1,20 @@
 import { useState } from "react";
 import { MapPin, Trash2, Plus, Phone, Landmark } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { update } from "../redux/UserSlice";
 
 const AddressComponent = () => {
-  const [addresses, setAddresses] = useState([
-    {
-      id: 1,
-      type: "Home",
-      address: "123 Street, City, Country",
-      city: "Example City, Example District",
-      pin: "123456",
-      phone: "9876543210",
-      landmark: "Near XYZ Park",
-    },
-    {
-      id: 2,
-      type: "Work",
-      address: "456 Office Rd, City, Country",
-      city: "Work City, Work District",
-      pin: "654321",
-      phone: "9876501234",
-      landmark: "Opposite ABC Mall",
-    },
-  ]);
+  const API_BASE_URL = "http://localhost:4000/api/v1";
+  const dispatch = useDispatch(); // ✅ Added dispatch hook
+
+  const user = useSelector((state) => state.user);
+  console.log("printing user in address: ",user);
+  const addresses = user.address;
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [newAddress, setNewAddress] = useState({
+    id: "",
     type: "",
     address: "",
     city: "",
@@ -33,34 +23,77 @@ const AddressComponent = () => {
     landmark: "",
   });
 
-  const handleDelete = (id) => {
-    setAddresses(addresses.filter((address) => address.id !== id));
+  // ✅ Handle Delete Address (Backend + Redux)
+  const handleDelete = async (addressId) => {
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/deleteaddress`,
+        {
+          id: user._id,
+          addressId: addressId,
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Address deleted:", response.data.updatedUser);
+
+      dispatch(update(response.data.updatedUser)); // ✅ Update Redux with latest user data
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
   };
 
+  // ✅ Handle input change
   const handleChange = (e) => {
     setNewAddress({ ...newAddress, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // ✅ Handle Add Address Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      newAddress.type &&
-      newAddress.address &&
-      newAddress.city &&
-      newAddress.pin &&
-      newAddress.phone &&
-      newAddress.landmark
-    ) {
-      setAddresses([...addresses, { id: Date.now(), ...newAddress }]);
-      setNewAddress({
-        type: "",
-        address: "",
-        city: "",
-        pin: "",
-        phone: "",
-        landmark: "",
-      });
-      setIsFormOpen(false);
+    const addressToAdd = { ...newAddress, id: Date.now() };
+
+    try {
+      const updatedUser = await updateDb(addressToAdd);
+
+      if (updatedUser) {
+        dispatch(update(updatedUser)); // ✅ Update Redux with latest user data
+
+        setIsFormOpen(false); // Close form
+        // Reset form fields
+        setNewAddress({
+          id: "",
+          type: "",
+          address: "",
+          city: "",
+          pin: "",
+          phone: "",
+          landmark: "",
+        });
+      }
+    } catch (error) {
+      console.error("Error adding address:", error);
+    }
+  };
+
+  // ✅ Call backend API to update address
+  const updateDb = async (addressToAdd) => {
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/updateaddress`,
+        {
+          id: user._id,
+          address: addressToAdd,
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
     }
   };
 
@@ -69,6 +102,7 @@ const AddressComponent = () => {
       <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
         <MapPin className="text-teal-600" /> Addresses
       </h2>
+
       <div className="mt-4 space-y-4">
         {addresses.map((address) => (
           <div
@@ -77,21 +111,27 @@ const AddressComponent = () => {
           >
             <div
               className="absolute top-4 right-4 text-red-600 hover:text-red-800 cursor-pointer"
-              onClick={() => handleDelete(address.id)}
+              onClick={() => handleDelete(address.id)} // ✅ Now calls delete API
             >
               <Trash2 size={20} />
             </div>
-            <h3 className="text-lg font-semibold text-gray-800">{address.type}</h3>
+
+            <h3 className="text-lg font-semibold text-gray-800">
+              {address.type}
+            </h3>
             <p className="text-gray-700">{address.address}</p>
             <p className="text-gray-600 flex items-center gap-2">
               <MapPin size={16} className="text-teal-600" /> {address.city}
             </p>
-            <p className="text-gray-600 flex items-center gap-2">📌 Pin: {address.pin}</p>
+            <p className="text-gray-600 flex items-center gap-2">
+              📌 Pin: {address.pin}
+            </p>
             <p className="text-gray-600 flex items-center gap-2">
               <Phone size={16} className="text-teal-600" /> {address.phone}
             </p>
             <p className="text-gray-600 flex items-center gap-2">
-              <Landmark size={16} className="text-yellow-600" /> Landmark: {address.landmark}
+              <Landmark size={16} className="text-yellow-600" /> Landmark:{" "}
+              {address.landmark}
             </p>
           </div>
         ))}
@@ -165,6 +205,7 @@ const AddressComponent = () => {
               required
             />
           </div>
+
           <div className="mt-4 flex justify-end gap-4">
             <button
               type="button"

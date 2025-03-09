@@ -7,10 +7,13 @@ import BestSellersSlider from './BestSeller';
 import LifeAyuSlider from './LifeAyuSlider';
 import Products from './Products';
 import axios from 'axios';
+import { useSelector,useDispatch } from 'react-redux';
+import { update } from '../redux/UserSlice';
 
 function Home() {
-    const [user, setUser] = useState(null);
-    const API_BASE_URL = "http://localhost:41000/api/v1";
+    const dispatch = useDispatch();
+    const user = useSelector((state)=>state.user);
+    const API_BASE_URL = "http://localhost:4000/api/v1";
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -18,7 +21,7 @@ function Home() {
             try {
                 const response = await axios.get(`${API_BASE_URL}/dashboard`, { withCredentials: true });
                 console.log("API Response:", response.data);  // ✅ Check API response
-                setUser(response.data.fetchedUser);  
+                dispatch(update(response.data.fetchedUser));  
             } catch (error) {
                 console.error("Error fetching user:", error);
             }
