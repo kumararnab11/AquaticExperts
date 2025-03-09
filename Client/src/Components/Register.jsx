@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = "http://localhost:4500/api/v1";
+const API_BASE_URL = "http://localhost:41000/api/v1";
 
 const Register = () => {
   const navigate = useNavigate();

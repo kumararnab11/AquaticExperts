@@ -4,7 +4,7 @@ const cors = require("cors")
 const cookieParser = require("cookie-parser")
 
 require("dotenv").config();
-const PORT= process.env.PORT || 4500 ;
+const PORT= process.env.PORT || 41000 ;
 
 app.use(cors({
     origin: "http://localhost:5173", // ✅ Allow only frontend origin

@@ -10,7 +10,7 @@ import axios from 'axios';
 
 function Home() {
     const [user, setUser] = useState(null);
-    const API_BASE_URL = "http://localhost:4500/api/v1";
+    const API_BASE_URL = "http://localhost:41000/api/v1";
 
     useEffect(() => {
         const fetchUser = async () => {

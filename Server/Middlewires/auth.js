@@ -1,9 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 exports.authMiddleware = (req, res, next) => {
-    //console.log(req +"\n"+res);
     const token = req.cookies.token_cookie; // Get token from cookies
-    console.log('1');
 
     if (!token) {
         return res.status(401).json({ success: false, message: "Unauthorized" });

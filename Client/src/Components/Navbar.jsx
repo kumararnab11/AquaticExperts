@@ -3,12 +3,24 @@ import { Menu, X, User, ShoppingCart, Package, MapPin, Settings, LogOut } from "
 import { NavLink, Link, useLocation } from "react-router-dom";
 
 const Navbar = ({user}) => {
+  console.log("user is:",user);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(user?true:false);
-  const [cartItemCount, setCartItemCount] = useState(user?user.cart.size():'-1');
+  const [cartItemCount, setCartItemCount] = useState(user?user.cart.length:'0');
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const location = useLocation();
   const profileRef = useRef(null);
+
+  useEffect(() => {
+    setIsLoggedIn(!!user); // Sets true if user exists, otherwise false
+  
+    if (user && user.cart) {
+      setCartItemCount(user.cart.length);
+    } else {
+      setCartItemCount(0);
+    }
+  }, [user]);
+  
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -140,8 +152,8 @@ const Navbar = ({user}) => {
             <div className="flex items-center gap-3 border-b pb-3">
               <User size={30} className="text-teal-600" />
               <div>
-                <p className="font-bold text-gray-900">John Doe</p>
-                <p className="text-gray-600 text-sm">johndoe@example.com</p>
+                <p className="font-bold text-gray-900">{user.name}</p>
+                <p className="text-gray-600 text-sm">{user.email}</p>
               </div>
             </div>
             <ul className="mt-3 space-y-2">

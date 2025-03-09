@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const API_BASE_URL = "http://localhost:4500/api/v1";
+  const API_BASE_URL = "http://localhost:41000/api/v1";
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
@@ -14,7 +14,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/login`, { email, password });
+      const response = await axios.post(`${API_BASE_URL}/login`, { email, password },{withCredentials:true});
 
       if (response.data.success) {
         console.log("Login Successful:", response.data);
