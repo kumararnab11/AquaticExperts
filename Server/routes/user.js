@@ -9,6 +9,8 @@ const {getUser}= require("../Middlewires/getUser.js");
 const {addAddress,deleteAddress} = require("../controllers/address.js");
 const {logout}=require("../controllers/logout.js")
 
+const {newProduct,updateProduct}=require("../controllers/product.controllers.js")
+
 router.post("/login", login);
 router.post("/signup", signup);
 router.post("/sendotp", sendotp);
@@ -25,5 +27,9 @@ router.get("/dashboard", authMiddleware, getUser, (req, res) => {
         fetchedUser: req.fetchedUser
     });
 });
+
+
+router.post("/addproduct", newProduct);
+router.put("/updateproduct", updateProduct);
 
 module.exports = router;

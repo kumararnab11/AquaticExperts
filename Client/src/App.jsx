@@ -4,7 +4,6 @@ import Login from '../src/Components/Login'
 import Register from '../src/Components/Register'
 import Navbar from '../src/Components/Navbar'
 import ContactUs from './Components/ContactUs'
-import Cart from './Components/Cart'
 import Filter from './Components/Filter/Filter'
 import FishFood from './Components/FishFood/FishFood'
 import ProductCardExtended from './Components/ProductCardExtended'
@@ -19,11 +18,19 @@ import Accessories from './Components/Accessories/Accessories'
 import SubCategory from './Components/SubCategory'
 import NotFound from './Components/NotFound'
 import Home from './Components/Home'
+import CartCapsule from './Components/CartCapsule'
+import NewProduct from './Admin/NewProduct'
 
 function App() {
 
   const router=createBrowserRouter(
-    [
+    [ 
+      {
+        path:'/admin/check',
+        element:<div className='bg-[#dbcfc9]'>
+        <NewProduct/>
+        </div>
+      },
       {
         path:'/',
         element:<div className='bg-[#dbcfc9]'>
@@ -104,8 +111,7 @@ function App() {
       {
         path:'/cart',
         element:<div className='bg-[#dbcfc9] min-h-screen'>
-          <Navbar/>
-          <Cart/>
+          <CartCapsule/>
         </div>
       },
       {
