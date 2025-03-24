@@ -1,7 +1,6 @@
 const productModel =require("../models/product")
 
-exports.newProduct = (req,res)=>{
-    console.log("came");
+exports.newProduct =async (req,res)=>{
     const product = req.body;
 
     if(!product){
@@ -11,10 +10,8 @@ exports.newProduct = (req,res)=>{
         })
     }
 
-    console.log("pro",product);
-
     try{
-        const newProduct = productModel.create(product);
+        const newProduct =await productModel.create(product);
 
         return res.status(200).json({
             success:'true',
@@ -31,8 +28,9 @@ exports.newProduct = (req,res)=>{
 }
 
 
-exports.updateProduct=(req,res)=>{
+exports.updateProduct= async (req,res)=>{
     const product = req.body;
+    // console.log("product",product)
 
     if(!product){
         return res.status(401).json({
@@ -42,7 +40,7 @@ exports.updateProduct=(req,res)=>{
     }
 
     try{
-        const updatedProduct = productModel.findByIdAndUpdate(product.id,{
+        const updatedProduct =await productModel.findByIdAndUpdate(product._id,{
             image:product.image,
             name:product.name,
             price:product.price,
@@ -50,7 +48,7 @@ exports.updateProduct=(req,res)=>{
             quantity:product.quantity,
             desc:product.desc,
             howToUse:product.howToUse,
-            benifits:product.benifits,
+            benefits:product.benefits,
             keyPoints:product.keyPoints,
             category:product.category,
             subcategory:product.subcategory

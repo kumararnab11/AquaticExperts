@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 
-const ProductCard = ({ image, title, price, description, originalPrice }) => {
+const ProductCard = ({ image, desc, price, discount,name , _id}) => {
   const [quantity, setQuantity] = useState(0);
 
   // Calculate discount percentage
-  const discountPercentage = Math.round(((originalPrice - price) / originalPrice) * 100);
+  const discountPercentage = discount;
+
+  const navigate =useNavigate();
 
   return (
-    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-[270px] border border-gray-200 transform transition duration-300 hover:scale-105 hover:shadow-lg relative">
+    <div className="bg-white rounded-2xl shadow-md overflow-hidden w-full max-w-[270px] border border-gray-200 transform transition duration-300 hover:scale-105 hover:shadow-lg relative"
+    onClick={()=>navigate(`/product/${_id}`)}>
       
       {/* Discount Badge */}
       {discountPercentage > 0 && (
@@ -18,13 +22,13 @@ const ProductCard = ({ image, title, price, description, originalPrice }) => {
 
       {/* Product Image */}
       <div className="w-full h-44 sm:h-48 md:h-52 overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover rounded-t-2xl" />
+        <img src={image} alt={name} className="w-full h-full object-cover rounded-t-2xl" />
       </div>
 
       {/* Product Details */}
       <div className="p-4 flex flex-col">
-        <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
-        <p className="text-gray-600 text-sm mt-1 line-clamp-2">{description}</p>
+        <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+        <p className="text-gray-600 text-sm mt-1 line-clamp-2">{desc}</p>
 
         {/* Price & Cart Actions */}
         <div className="mt-4 flex justify-between items-center">

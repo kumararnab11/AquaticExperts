@@ -2,8 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import  {useParams}  from 'react-router-dom';
+import { useState,useEffect } from "react";
+import axios from "axios";
 
-const ProductCardExtended = ({ id, images, name, price, description, details }) => {
+const ProductCardExtended = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -11,6 +14,26 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  const API_BASE_URL = "http://localhost:4000/api/v1";
+  const { pid } = useParams();
+  const [productData, setProductData] = useState({
+    images:[],
+    name:"",
+    desc:"",
+    keypoints:[],
+    benefits:[],
+    howToUse:[]
+  });
+
+  useEffect(() => {
+    //console.log("called");
+    axios.get(`${API_BASE_URL}/getproduct/${pid}`)
+      .then(response => {
+        //console.log(response.data.data)
+        setProductData(response.data.data)
+      })
+      .catch(error => console.error("Error fetching product data:", error));
+  }, [pid]);
 
   return (
     <div className="bg-[#dbcfc9] min-h-screen flex justify-center items-center p-4">
@@ -19,7 +42,7 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
         <div className="lg:w-1/2 w-full lg:sticky top-10">
           <div className="sticky top-0 bg-white z-10">
             <Slider {...settings}>
-              {images.map((img, index) => (
+              {productData.images.map((img, index) => (
                 <div key={index} className="flex justify-center">
                   <img src={img} alt={`Product ${index}`} className="w-full max-w-xs h-80 object-cover rounded-lg" />
                 </div>
@@ -38,16 +61,41 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
         </div>
 
         <div className="lg:w-1/2 w-full mt-6 lg:mt-0 lg:pl-8 overflow-y-auto max-h-full lg:max-h-[80vh] flex-1">
-          <h1 className="text-2xl font-bold text-gray-800">{name}</h1>
-          <p className="text-lg text-gray-700 mt-2">{description}</p>
-          <p className="text-xl font-semibold text-[#2DAA9E] mt-4">₹{price}</p>
+          <h1 className="text-2xl font-bold text-gray-800">{productData.name}</h1>
+          <p className="text-lg text-gray-700 mt-2">{productData.desc}</p>
+          <p className="text-xl font-semibold text-[#2DAA9E] mt-4">₹{productData.price}</p>
 
           <h2 className="text-lg font-bold mt-6 text-gray-800">Product Details</h2>
           <ul className="list-disc pl-6 text-gray-600">
-            {details.map((detail, index) => (
+            {productData.keypoints.map((detail, index) => (
               <li key={index} className="mt-2">{detail}</li>
             ))}
           </ul>
+          {
+            productData.benefits.length > 0 && (
+              <>
+                <h2 className="text-lg font-bold mt-6 text-gray-800">benefits</h2>
+                <ul className="list-disc pl-6 text-gray-600">
+                  {productData.benefits.map((detail, index) => (
+                    <li key={index} className="mt-2">{detail}</li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+          {
+            productData.howToUse.length > 0 && (
+              <>
+                <h2 className="text-lg font-bold mt-6 text-gray-800">How To Use</h2>
+                <ul className="list-disc pl-6 text-gray-600">
+                  {productData.howToUse.map((detail, index) => (
+                    <li key={index} className="mt-2">{detail}</li>
+                  ))}
+                </ul>
+              </>
+            )
+          }
+
         </div>
 
         <div className="lg:hidden w-full bg-white shadow-lg">
@@ -64,27 +112,4 @@ const ProductCardExtended = ({ id, images, name, price, description, details }) 
     </div>
   );
 };
-
-const dummyProduct = {
-  id: 1,
-  images: [
-    "https://via.placeholder.com/300",
-    "https://via.placeholder.com/300/ff7f7f",
-    "https://via.placeholder.com/300/77ff7f",
-  ],
-  name: "Noise Smartwatch 1.69” Display",
-  price: "1,099",
-  description: "Bluetooth Calling, Built-in Games, AI Voice Assistant, Deep Wine Strap.",
-  details: [
-    "1.69” TFT LCD Display",
-    "Bluetooth Calling with AI Voice Assistant",
-    "Noise Health Suite™: Heart Rate, Blood Oxygen, Stress Monitor",
-    "Multiple Sports Modes & Customizable Watch Faces",
-    "Battery Life up to 7 Days",
-    "Water Resistant (IP68)",
-  ],
-};
-
-export default function App() {
-  return <ProductCardExtended {...dummyProduct} />;
-}
+export default ProductCardExtended;

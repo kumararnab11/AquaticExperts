@@ -20,6 +20,7 @@ import NotFound from './Components/NotFound'
 import Home from './Components/Home'
 import CartCapsule from './Components/CartCapsule'
 import NewProduct from './Admin/NewProduct'
+import UpdateProduct from './Admin/UpdateProduct'
 
 function App() {
 
@@ -29,6 +30,12 @@ function App() {
         path:'/admin/check',
         element:<div className='bg-[#dbcfc9]'>
         <NewProduct/>
+        </div>
+      },
+      {
+        path:'/admin/updateproduct/:productId',
+        element:<div className='bg-[#dbcfc9]'>
+        <UpdateProduct/>
         </div>
       },
       {
@@ -153,18 +160,8 @@ function App() {
         element:<Addresses/>
       },
       {
-        path:'/p',
-        element:<ProductCardExtended
-        id="123"
-        images={[
-          "https://via.placeholder.com/150",
-          "https://via.placeholder.com/150/0000FF",
-          "https://via.placeholder.com/150/FF0000"
-        ]}
-        name="Premium Fish Food"
-        price="499"
-        description="High-quality fish food for better growth and color enhancement."
-      />
+        path:'/product/:pid',
+        element:<ProductCardExtended/>
       },
       {
         path:'*',

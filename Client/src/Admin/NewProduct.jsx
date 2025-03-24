@@ -114,20 +114,9 @@ function AddProductForm() {
     formData.category=category;
     formData.subcategory=subcategory;
 
-    //console.log(formData)
-    
-    // images.forEach((img, index) => {
-    //   if (img.file) {
-    //     formData.append(`images[${index}]`, img.file);
-    //   }
-    // });
-
     try {
-      const response = await axios.post(`${API_BASE_URL}/addproduct`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      console.log(formData)
+      const response = await axios.post(`${API_BASE_URL}/addproduct`, formData);
       alert("Product added successfully!");
       console.log("response", response.data);
     } catch (error) {

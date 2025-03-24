@@ -8,6 +8,7 @@ const { authMiddleware } = require("../Middlewires/auth");
 const {getUser}= require("../Middlewires/getUser.js");
 const {addAddress,deleteAddress} = require("../controllers/address.js");
 const {logout}=require("../controllers/logout.js")
+const {getProduct,getAllProduct} = require("../controllers/getproduct.controller.js")
 
 const {newProduct,updateProduct}=require("../controllers/product.controllers.js")
 
@@ -18,6 +19,8 @@ router.post("/verifyotp", verifyotp);
 router.put("/updateaddress", addAddress);
 router.put("/deleteaddress", deleteAddress);
 router.post("/logout", logout);
+router.get("/getproduct/:productId",getProduct)
+router.get("/getallproduct",getAllProduct)
 
 router.get("/dashboard", authMiddleware, getUser, (req, res) => {
     console.log("User in dashboard:", req.user);
