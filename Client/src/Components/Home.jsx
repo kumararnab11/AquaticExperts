@@ -35,10 +35,10 @@ function Home() {
     // }, [user]); 
 
     return (
-        <div>
+        <div className='max-w-screen'>
             <Navbar user={user} />
             <SliderCard />
-            <WaterTypeButtons />
+            {/* <WaterTypeButtons /> */}
             <CategorySection />
             <BestSellersSlider />
             <LifeAyuSlider />

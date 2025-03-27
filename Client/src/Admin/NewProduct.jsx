@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const categoryData = {
-  'Fish Food': ['Goldfish', 'Betta Fish', 'Cichlid', 'Guppy', 'Tetra', 'Arowana', 'Koi', 'Shrimp', 'Bottom Feeder'],
-  'Aquarium Filter & Media': ['Sponge Filter', 'Hang on Back', 'Canister Filter', 'Internal Power Filters', 'Undergravel Filters', 'Bio Media', 'Mechanical Media', 'Chemical Media'],
-  'Aquarium Soil & Substrate': ['Planted Tank Soil', 'Sand Substrate', 'Gravel Substrate', 'Coral & Aragonite Substrate', 'Shrimp Tank Substrate'],
-  'Aquarium Lighting': ['LED Aquarium Lights', 'Planted Tank Light', 'Marine & Reef Tank Lights', 'Nano Tank Lighting', 'Clip-on & Adjustable Lights'],
-  'Aquarium Tools': ['Algae Scrapers', 'Aquascaping Tools', 'Water Testing Kit', 'Fish Nets & Catching Tool', 'Water Changers & Siphons', 'CO2 Systems']
+  'Fish Food': ['goldfish', 'betta', 'cichlid', 'guppy', 'tetra', 'arowana', 'koi', 'shrimp', 'bottom-feeder'],
+  'Aquarium Filter & Media': ['sponge-filter', 'hang-on-back', 'canister-filter', 'internal-power-filters', 'undergravel-filters', 'bio-media', 'mechanical-media', 'chemical-media'],
+  'Aquarium Soil & Substrate': ['planted-tank-soil', 'sand-substrate', 'gravel-substrate', 'coral-aragonite-substrate', 'shrimp-tank-substrate'],
+  'Aquarium Lighting': ['led-aq-lights', 'planted-tank-light', 'marine-reef-tank-lights', 'nano-tank-lighting', 'clip-on-adjustable-lights'],
+  'Aquarium Tools': ['algae-scrapers', 'aquascaping-tools', 'water-testing-kit', 'fish-nets-catching-tool', 'water-changers-siphons', 'co2-systems']
 };
 
 const API_BASE_URL = "http://localhost:4000/api/v1";
@@ -15,6 +15,7 @@ function AddProductForm() {
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [features, setFeatures] = useState(['']);
   const [benefits, setBenefits] = useState(['']);
   const [howToUse, setHowToUse] = useState(['']);
@@ -107,6 +108,7 @@ function AddProductForm() {
     formData.name=productName;
     formData.desc=description;
     formData.price=price;
+    formData.quantity=quantity;
     formData.discount=discount;
     formData.keypoints=features;
     formData.benefits=benefits;
@@ -114,9 +116,19 @@ function AddProductForm() {
     formData.category=category;
     formData.subcategory=subcategory;
 
+    images.forEach((img) => {
+      if (img.file) {
+        formData.append("images", img.file);
+      }
+    });
+
     try {
       console.log(formData)
-      const response = await axios.post(`${API_BASE_URL}/addproduct`, formData);
+      const response = await axios.post(`${API_BASE_URL}/addproduct`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("Product added successfully!");
       console.log("response", response.data);
     } catch (error) {
@@ -176,6 +188,18 @@ function AddProductForm() {
             value={discount}
             onChange={(e) => setDiscount(e.target.value)}
             className="w-full border p-2 rounded-md"
+          />
+        </div>
+
+        {/* Quantity */}
+        <div>
+          <label className="block font-medium mb-1">Quantity (₹):</label>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            className="w-full border p-2 rounded-md"
+            required
           />
         </div>
 

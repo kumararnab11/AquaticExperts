@@ -34,13 +34,13 @@ function App() {
       },
       {
         path:'/admin/updateproduct/:productId',
-        element:<div className='bg-[#dbcfc9]'>
+        element:<div className='bg-gray-50'>
         <UpdateProduct/>
         </div>
       },
       {
         path:'/',
-        element:<div className='bg-[#dbcfc9]'>
+        element:<div className='bg-[#c9c5c3]'>
         <Home/>
         </div>
       },

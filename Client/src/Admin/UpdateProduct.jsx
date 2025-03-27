@@ -3,11 +3,11 @@ import axios from 'axios';
 import  {useParams}  from 'react-router-dom';
 
 const categoryData = {
-  'Fish Food': ['Goldfish', 'Betta Fish', 'Cichlid', 'Guppy', 'Tetra', 'Arowana', 'Koi', 'Shrimp', 'Bottom Feeder'],
-  'Aquarium Filter & Media': ['Sponge Filter', 'Hang on Back', 'Canister Filter', 'Internal Power Filters', 'Undergravel Filters', 'Bio Media', 'Mechanical Media', 'Chemical Media'],
-  'Aquarium Soil & Substrate': ['Planted Tank Soil', 'Sand Substrate', 'Gravel Substrate', 'Coral & Aragonite Substrate', 'Shrimp Tank Substrate'],
-  'Aquarium Lighting': ['LED Aquarium Lights', 'Planted Tank Light', 'Marine & Reef Tank Lights', 'Nano Tank Lighting', 'Clip-on & Adjustable Lights'],
-  'Aquarium Tools': ['Algae Scrapers', 'Aquascaping Tools', 'Water Testing Kit', 'Fish Nets & Catching Tool', 'Water Changers & Siphons', 'CO2 Systems']
+  'Fish Food': ['goldfish', 'betta', 'cichlid', 'guppy', 'tetra', 'arowana', 'koi', 'shrimp', 'bottom-feeder'],
+  'Aquarium Filter & Media': ['sponge-filter', 'hang-on-back', 'canister-filter', 'internal-power-filters', 'undergravel-filters', 'bio-media', 'mechanical-media', 'chemical-media'],
+  'Aquarium Soil & Substrate': ['planted-tank-soil', 'sand-substrate', 'gravel-substrate', 'coral-aragonite-substrate', 'shrimp-tank-substrate'],
+  'Aquarium Lighting': ['led-aq-lights', 'planted-tank-light', 'marine-reef-tank-lights', 'nano-tank-lighting', 'clip-on-adjustable-lights'],
+  'Aquarium Tools': ['algae-scrapers', 'aquascaping-tools', 'water-testing-kit', 'fish-nets-catching-tool', 'water-changers-siphons', 'co2-systems']
 };
 
 const API_BASE_URL = "http://localhost:4000/api/v1";
@@ -87,6 +87,11 @@ function UpdateProduct() {
         </div>
 
         <div>
+          <label className="block font-medium mb-1">Quantity:</label>
+          <input type="number" value={productData.quantity || 0} onChange={(e) => handleChange('quantity', e.target.value)} className="w-full border p-2 rounded-md" />
+        </div>
+
+        <div>
           <label className="block font-medium mb-1">Category:</label>
           <select value={productData.category || ''} onChange={(e) => handleChange('category', e.target.value)} className="w-full border p-2 rounded-md" required>
             <option value="">Select Category</option>
@@ -113,8 +118,8 @@ function UpdateProduct() {
           <label className="block font-medium mb-1">Key Features:</label>
           {productData.keypoints?.map((feature, index) => (
             <div key={index} className="flex items-center mb-2">
-              <input type="text" value={feature} onChange={(e) => handleArrayChange('keypoints', index, e.target.value)} className="w-full border p-2 rounded-md" required />
-              {productData.keypoints.length > 1 && (
+              <input type="text" value={feature} onChange={(e) => handleArrayChange('keypoints', index, e.target.value)} className="w-full border p-2 rounded-md" />
+              {productData.keypoints.length > 0 && (
                 <button type="button" onClick={() => removeArrayField('keypoints', index)} className="ml-2 text-red-500 hover:text-red-700">Remove</button>
               )}
             </div>
@@ -134,6 +139,20 @@ function UpdateProduct() {
             </div>
           ))}
           <button type="button" onClick={() => addArrayField('benefits')} className="mt-2 text-teal-600 hover:text-teal-800 text-sm">+ Add Benefit</button>
+        </div>
+
+        {/* How to use */}
+        <div>
+          <label className="block font-medium mb-1">How To Use:</label>
+          {productData.howToUse?.map((how2use, index) => (
+            <div key={index} className="flex items-center mb-2">
+              <input type="text" value={how2use} onChange={(e) => handleArrayChange('howToUse', index, e.target.value)} className="w-full border p-2 rounded-md" />
+              {productData.howToUse.length > 0 && (
+                <button type="button" onClick={() => removeArrayField('howToUse', index)} className="ml-2 text-red-500 hover:text-red-700">Remove</button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={() => addArrayField('howToUse')} className="mt-2 text-teal-600 hover:text-teal-800 text-sm">+ Add HowToUse</button>
         </div>
 
         <button type="submit" className="bg-teal-600 text-white px-6 py-2 rounded-md hover:bg-teal-700">Update Product</button>

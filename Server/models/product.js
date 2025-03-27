@@ -31,6 +31,10 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  quantity: {
+    type: Number,
+    default: 0
+  },
   keypoints: {
     type: [String],
     default: []

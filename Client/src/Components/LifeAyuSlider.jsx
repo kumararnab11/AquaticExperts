@@ -8,19 +8,21 @@ const LifeAyuSlider = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     rtl: true,
     autoplaySpeed: 3000,
+    focusOnChange: false,  // ✅ Prevent focus shift to hidden slides
+    accessibility: true,    // ✅ Improve accessibility
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2 , arrows:false },
+        settings: { slidesToShow: 4, arrows: false },
       },
       {
         breakpoint: 640,
-        settings: { slidesToShow: 1, arrows:false },
+        settings: { slidesToShow: 3, arrows: false },
       },
     ],
   };
@@ -39,11 +41,10 @@ const LifeAyuSlider = () => {
         Life Ayu Products
       </h2>
 
-
       {/* Slider */}
       <Slider {...settings}>
         {products.map((product, index) => (
-          <div key={index} className="px-2">
+          <div key={index} className="px-2 slick-slide-item">
             <ProductCard {...product} />
           </div>
         ))}
