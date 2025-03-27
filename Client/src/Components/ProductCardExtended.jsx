@@ -34,20 +34,26 @@ const ProductCardExtended = () => {
       })
       .catch(error => console.error("Error fetching product data:", error));
   }, [pid]);
-
   return (
     <div className="bg-[#dbcfc9] min-h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
         
         <div className="lg:w-1/2 w-full lg:sticky top-10">
           <div className="sticky top-0 bg-white z-10">
-            <Slider {...settings}>
-              {productData.images.map((img, index) => (
-                <div key={index} className="flex justify-center">
-                  <img src={img} alt={`Product ${index}`} className="w-full max-w-xs h-80 object-cover rounded-lg" />
-                </div>
-              ))}
-            </Slider>
+          <Slider {...settings}>
+            {productData.images.length > 1
+              ? productData.images.map((img, index) => (
+                  <div key={index} className="flex justify-center">
+                    <img src={img} alt={`Product ${index}`} className="w-full max-w-xs h-80 object-cover rounded-lg" />
+                  </div>
+                ))
+              : [...Array(3)].map((_, index) => (
+                  <div key={index} className="flex justify-center">
+                    <img src={productData.images[0]} alt={`Product`} className="w-full max-w-xs h-80 object-cover rounded-lg" />
+                  </div>
+                ))}
+          </Slider>
+
           </div>
           
           <div className="hidden lg:flex gap-4 mt-6">

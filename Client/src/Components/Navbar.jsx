@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, User, ShoppingCart, Package, MapPin, Settings, LogOut } from "lucide-react";
+import { Menu, X, User, ShoppingCart, Package, MapPin, Settings, LogOut, Search } from "lucide-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,33 +12,13 @@ const Navbar = ({ user }) => {
   console.log("user is:", user);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
-  const [cartItemCount, setCartItemCount] = useState(user ? user.cart.length : '0');
+  const [cartItemCount, setCartItemCount] = useState(user ? user.cart.length : "0");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false); // ✅ State for mobile search bar
   const location = useLocation();
   const profileRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const logOut = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/v1/logout",
-        {},
-        { withCredentials: true }
-      );
-
-      if (response.data.success) {
-        dispatch(clearUser());
-        toast.success(response.data.message || "Login Successful!");
-        setIsProfileOpen(false);
-        navigate("/");
-      } else {
-        toast.error("Logout failed");
-      }
-    } catch (error) {
-      toast.error("Error during logout:");
-    }
-  };
 
   useEffect(() => {
     setIsLoggedIn(!!user);
@@ -72,6 +52,7 @@ const Navbar = ({ user }) => {
             <Link to="/">Aquatic Experts</Link>
           </div>
 
+          {/* 🔍 Desktop Search */}
           <div className="flex-grow hidden md:flex justify-center">
             <input
               type="text"
@@ -86,7 +67,9 @@ const Navbar = ({ user }) => {
                 key={item}
                 to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
                 className={({ isActive }) =>
-                  `text-white hover:text-teal-600 ${ (item === "Home" && location.pathname === "/") || isActive ? "border-b-2 border-teal-600" : "" }`
+                  `text-white hover:text-teal-600 ${
+                    (item === "Home" && location.pathname === "/") || isActive ? "border-b-2 border-teal-600" : ""
+                  }`
                 }
               >
                 {item}
@@ -115,14 +98,17 @@ const Navbar = ({ user }) => {
                 </Link>
               </div>
             ) : (
-              <Link to="/login" className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">
-                Login
-              </Link>
+              <Link to="/login" className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">Login</Link>
             )}
           </div>
 
           {/* ✅ Mobile view icons / buttons */}
           <div className="md:hidden flex items-center space-x-4">
+            {/* 🔍 Mobile Search Icon */}
+            <button onClick={() => setShowSearch(!showSearch)} className="text-white focus:outline-none">
+              <Search size={24} />
+            </button>
+
             {isLoggedIn ? (
               <>
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="text-white focus:outline-none">
@@ -138,9 +124,7 @@ const Navbar = ({ user }) => {
                 </Link>
               </>
             ) : (
-              <Link to="/login" className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">
-                Login
-              </Link>
+              <Link to="/login" className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">Login</Link>
             )}
 
             <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -150,6 +134,17 @@ const Navbar = ({ user }) => {
         </div>
       </div>
 
+      {/* 🔍 Mobile Search Bar */}
+      {showSearch && (
+        <div className="md:hidden bg-black p-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full px-4 py-2 border border-gray-300 rounded-md bg-black text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+      )}
+
       {isOpen && (
         <div className="md:hidden bg-black text-white p-4 space-y-2 z-50 relative">
           {["Home", "About", "Services", "Contact"].map((item) => (
@@ -157,7 +152,9 @@ const Navbar = ({ user }) => {
               key={item}
               to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
               className={({ isActive }) =>
-                `block py-2 px-4 rounded ${ (item === "Home" && location.pathname === "/") || isActive ? "border-b-2 border-teal-600" : "" }`
+                `block py-2 px-4 rounded ${
+                  (item === "Home" && location.pathname === "/") || isActive ? "border-b-2 border-teal-600" : ""
+                }`
               }
               onClick={() => setIsOpen(false)}
             >
@@ -169,43 +166,19 @@ const Navbar = ({ user }) => {
 
       {isProfileOpen && (
         <>
-          <div
-            className="fixed inset-0 bg-opacity-30 backdrop-blur-sm z-40"
-            onClick={() => setIsProfileOpen(false)}
-          ></div>
+          <div className="fixed inset-0 bg-opacity-30 backdrop-blur-sm z-40" onClick={() => setIsProfileOpen(false)}></div>
 
           <div className="absolute right-5 top-16 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
             <div className="flex items-center gap-3 border-b pb-3">
               <User size={30} className="text-teal-600" />
               <div>
-                <p className="font-bold text-gray-900">{user ? user.name : ''}</p>
-                <p className="text-gray-600 text-sm">{user ? user.email : ''}</p>
+                <p className="font-bold text-gray-900">{user ? user.name : ""}</p>
+                <p className="text-gray-600 text-sm">{user ? user.email : ""}</p>
               </div>
             </div>
             <ul className="mt-3 space-y-2">
               <li>
-                <Link to="/profile/orders" className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100">
-                  <Package size={18} className="text-teal-600" />
-                  My Orders
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile/addresses" className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100">
-                  <MapPin size={18} className="text-teal-600" />
-                  Addresses
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile/settings" className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100">
-                  <Settings size={18} className="text-teal-600" />
-                  Settings
-                </Link>
-              </li>
-              <li>
-                <button
-                  className="w-full flex items-center gap-2 p-2 rounded-md text-red-600 hover:bg-gray-100"
-                  onClick={() => { logOut() }}
-                >
+                <button className="w-full flex items-center gap-2 p-2 rounded-md text-red-600 hover:bg-gray-100" onClick={logOut}>
                   <LogOut size={18} />
                   Logout
                 </button>
@@ -214,7 +187,8 @@ const Navbar = ({ user }) => {
           </div>
         </>
       )}
-    <ToastContainer position="top-right" autoClose={3000} />
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </nav>
   );
 };
