@@ -112,7 +112,7 @@ const AddressComponent = () => {
         {addresses.map((address) => (
           <div
             key={address.id}
-            className="border p-4 rounded-lg shadow-sm bg-gray-50 relative"
+            className="border p-4 rounded-lg shadow-sm bg-gray-200 relative"
           >
             <div
               className="absolute top-4 right-4 text-red-600 hover:text-red-800 cursor-pointer"
@@ -152,7 +152,7 @@ const AddressComponent = () => {
       {isFormOpen && (
         <form
           onSubmit={handleSubmit}
-          className="mt-4 p-4 border rounded-lg shadow-sm bg-gray-50"
+          className="mt-4 p-4 border rounded-lg shadow-sm bg-gray-200"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input

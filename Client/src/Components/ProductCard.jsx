@@ -31,7 +31,7 @@ const ProductCard = ({ images, desc, price, discount, name, _id }) => {
         <h2 className="text-xs sm:text-sm md:text-base font-semibold text-gray-800 truncate">
           {name}
         </h2>
-        <p className="text-gray-500 text-[10px] sm:text-xs md:text-sm mt-1 truncate">
+        <p className="text-gray-2000 text-[10px] sm:text-xs md:text-sm mt-1 truncate">
           {desc}
         </p>
 

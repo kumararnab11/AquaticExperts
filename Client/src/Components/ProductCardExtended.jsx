@@ -35,7 +35,7 @@ const ProductCardExtended = () => {
       .catch(error => console.error("Error fetching product data:", error));
   }, [pid]);
   return (
-    <div className="bg-[#dbcfc9] min-h-screen flex justify-center items-center p-4">
+    <div className="bg-gray-200 min-h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
         
         <div className="lg:w-1/2 w-full lg:sticky top-10">

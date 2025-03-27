@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#dbcfc9] px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200 px-4">
       <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row w-full max-w-md md:max-w-2xl overflow-hidden">
         
         {/* Welcome Section */}

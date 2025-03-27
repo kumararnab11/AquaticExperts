@@ -1,6 +1,6 @@
 const AboutUs = () => {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-[#dbcfc9] p-6">
+      <div className="flex justify-center items-center min-h-screen bg-gray-200 p-6">
         <div className="max-w-2xl bg-white shadow-lg rounded-2xl p-6">
           <h1 className="text-3xl font-bold text-teal-600 text-center">About Us – Aquatic Experts</h1>
           <p className="text-gray-700 mt-4 text-center">
