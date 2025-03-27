@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const categoryData = {
@@ -23,6 +23,30 @@ function AddProductForm() {
   const [discount, setDiscount] = useState(0);
   const [subcategory, setSubcategory] = useState('');
   const [images, setImages] = useState([{ file: null, preview: null }]);
+
+
+  //upload image to cloudinary
+
+  const ImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "AquaticExpert");
+  
+    try {
+      const response = await axios.post(
+        "https://api.cloudinary.com/v1_1/dqip9xqmj/image/upload",
+        formData
+      );
+
+      console.log(response);
+  
+      return response.data.secure_url; // Return uploaded image URL
+    } catch (error) {
+      console.error("Upload error:", error);
+      return null;
+    }
+  };
+  
 
   // Feature Handlers
   const handleFeatureChange = (index, value) => {
@@ -103,30 +127,39 @@ function AddProductForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = {};
-    formData.name=productName;
-    formData.desc=description;
-    formData.price=price;
-    formData.quantity=quantity;
-    formData.discount=discount;
-    formData.keypoints=features;
-    formData.benefits=benefits;
-    formData.howToUse=howToUse;
-    formData.category=category;
-    formData.subcategory=subcategory;
-
-    images.forEach((img) => {
-      if (img.file) {
-        formData.append("images", img.file);
-      }
-    });
-
+  
+    // Upload all images and store their URLs in state
+    const uploadedImageUrls = await Promise.all(
+      images.map(async (img) => {
+        if (img.file) {
+          const url = await ImageUpload(img.file);
+          return { file: img.file, preview: img.preview, url };
+        }
+        return img;
+      })
+    );
+  
+    setImages(uploadedImageUrls); // Update state with uploaded URLs
+  
+    const formData = {
+      name: productName,
+      desc: description,
+      price: price,
+      quantity: quantity,
+      discount: discount,
+      keypoints: features,
+      benefits: benefits,
+      howToUse: howToUse,
+      category: category,
+      subcategory: subcategory,
+      images: uploadedImageUrls.map(img => img.url).filter(url => url !== null) // Store only valid image URLs
+    };
+  
     try {
-      console.log(formData)
+      console.log("Uploaded Image URLs:", uploadedImageUrls.map(img => img.url));
       const response = await axios.post(`${API_BASE_URL}/addproduct`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
       alert("Product added successfully!");
@@ -135,8 +168,9 @@ function AddProductForm() {
       alert("Submission failed. Please check the console for details.");
       console.error("Error submitting product:", error);
     }
-
   };
+  
+  
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
