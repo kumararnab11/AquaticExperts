@@ -5,8 +5,12 @@ import "slick-carousel/slick/slick-theme.css";
 import  {useParams}  from 'react-router-dom';
 import { useState,useEffect } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { update } from "../redux/UserSlice";
 
 const ProductCardExtended = () => {
+  const user = useSelector((state)=>state.user);
+  const dispatch=useDispatch();
   const settings = {
     dots: true,
     infinite: true,
@@ -20,6 +24,7 @@ const ProductCardExtended = () => {
     images:[],
     name:"",
     desc:"",
+    discount:"",
     keypoints:[],
     benefits:[],
     howToUse:[]
@@ -34,6 +39,87 @@ const ProductCardExtended = () => {
       })
       .catch(error => console.error("Error fetching product data:", error));
   }, [pid]);
+
+  const q = user ? user.cart.find((q) => q._id === pid) : null;
+  const [quantity, setQuantity] = useState(q ? q.quantity : 0);
+
+  const createDb = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/additemcart`,
+        {
+          user: user._id,
+          item:{ _id:pid, quantity:q,image:productData.images?.[0],name:productData.name,price:productData.price,discount:productData.discount}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+      dispatch(update(response.data.updatedUser))
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const deleteDb = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/deleteitemcart`,
+        {
+          user: user._id,
+          item:{ _id:pid, quantity:0}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+      dispatch(update(response.data.updatedUser))
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const updateDb = async (q) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/updateitemcart`,
+        {
+          user: user._id,
+          item:{ _id:pid, quantity:q,image:productData.images?.[0],name:productData.name,price:productData.price,discount:productData.discount}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+      dispatch(update(response.data.updatedUser))
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const handleCart = (q,ind) =>{
+    if(ind==1){
+      createDb();
+    }
+    else if(ind==2){
+      if(q==0){
+        deleteDb();
+      }
+      else{
+        updateDb(q);
+      }
+    }
+  }
+
+
+
+
   return (
     <div className="bg-gray-200 min-h-screen flex justify-center items-center p-4">
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
@@ -57,9 +143,48 @@ const ProductCardExtended = () => {
           </div>
           
           <div className="hidden lg:flex gap-4 mt-6">
-            <button className="flex-1 bg-[#FFD814] text-black font-bold py-3 rounded-lg shadow-md hover:bg-[#F7CA00]">
-              Add to Cart
-            </button>
+            {/* Cart Buttons */}
+              {quantity === 0 ? (
+                <button
+                  className="bg-[#FFD814] text-black px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-semibold hover:bg-[#F7CA00] transition-shadow shadow-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setQuantity(1);
+                    handleCart(1, 1);
+                  }}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <div className="flex items-center space-x-2 w-1/2">
+                  <button
+                    className="bg-gray-300 px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-bold hover:bg-gray-400 transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newQuantity = quantity - 1;
+                      setQuantity(newQuantity);
+                      handleCart(newQuantity, 2);
+                    }}
+                  >
+                    −
+                  </button>
+                  <span className="text-sm sm:text-base md:text-lg font-semibold">
+                    {quantity}
+                  </span>
+                  <button
+                    className="bg-gray-300 px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-bold hover:bg-gray-400 transition"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newQuantity = quantity + 1;
+                      setQuantity(newQuantity);
+                      handleCart(newQuantity, 2);
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+
             <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
               Buy Now
             </button>
@@ -106,15 +231,53 @@ const ProductCardExtended = () => {
 
         <div className="lg:hidden w-full bg-white shadow-lg">
           <div className="sticky bottom-0 left-0 flex gap-4 p-4">
-            <button className="flex-1 bg-[#FFD814] text-black font-bold py-3 rounded-lg shadow-md hover:bg-[#F7CA00]">
-              Add to Cart
-            </button>
+            {quantity === 0 ? (
+              <button
+                className="flex-1 bg-[#FFD814] text-black font-bold py-3 rounded-lg shadow-md hover:bg-[#F7CA00]"
+                onClick={
+                  (e) => {
+                    e.stopPropagation();
+                    setQuantity(1);
+                    handleCart(1,1);
+                  }
+                }
+              >
+                Add to Cart
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <button
+                  className="bg-[#FFD814] text-black font-bold py-2 px-4 rounded-l-lg shadow-md hover:bg-[#F7CA00]"
+                  onClick={(e)=>{
+                    e.stopPropagation();
+                    const newQuantity=quantity-1;
+                    setQuantity(newQuantity);
+                    handleCart(newQuantity,2);
+                  }}
+                >
+                  -
+                </button>
+                <span className="px-4">{quantity}</span>
+                <button
+                  className="bg-[#FFD814] text-black font-bold py-2 px-4 rounded-r-lg shadow-md hover:bg-[#F7CA00]"
+                  onClick={(e)=>{
+                    e.stopPropagation();
+                    const newQuantity=quantity + 1
+                    setQuantity(newQuantity);
+                    handleCart(newQuantity,2);
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            )}
             <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
               Buy Now
             </button>
           </div>
         </div>
-      </div>
+
+        </div>
     </div>
   );
 };
