@@ -4,7 +4,7 @@ exports.addItem = async (req,res)=>{
     const user = req.body.user;
     const item= req.body.item;
 
-    // console.log(req.body);
+     console.log(req.body);
 
     if (!user) {
         return res.status(400).json({

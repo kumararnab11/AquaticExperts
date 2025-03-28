@@ -8,7 +8,7 @@ import LifeAyuSlider from './LifeAyuSlider';
 import Products from './Products';
 import axios from 'axios';
 import { useSelector,useDispatch } from 'react-redux';
-import { update } from '../redux/UserSlice';
+import { clearUser, update } from '../redux/UserSlice';
 
 function Home() {
     const dispatch = useDispatch();
@@ -24,6 +24,7 @@ function Home() {
                 dispatch(update(response.data.fetchedUser));  
             } catch (error) {
                 console.error("Error fetching user:", error);
+                dispatch(clearUser());
             }
         };
         fetchUser();

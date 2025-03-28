@@ -1,18 +1,19 @@
 import { Trash2 } from "lucide-react";
 
-const CartCard = ({ image, title, price, quantity, onIncrease, onDecrease, onRemove }) => {
+const CartCard = ({ image, name, price, quantity, onIncrease, onDecrease, onRemove }) => {
+  console.log(image);
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between bg-white p-4 rounded-lg shadow-md border border-gray-200 w-full">
       {/* Image */}
       <div className="w-20 h-20 flex-shrink-0">
-        <img src={image} alt={title} className="w-full h-full rounded-lg object-cover" />
+        <img src={image} alt={name} className="w-full h-full rounded-lg object-cover" />
       </div>
 
       {/* Item Details */}
       <div className="flex flex-col sm:flex-row sm:items-center flex-grow px-4 text-center sm:text-left">
         <div className="sm:w-1/2">
-          <h3 className="text-lg text-teal-700 font-semibold">{title}</h3>
-          <p className="text-teal-500 text-sm">#4576279</p>
+          <h3 className="text-lg text-teal-700 font-semibold">{name}</h3>
+          {/* <p className="text-teal-500 text-sm">#4576279</p> */}
         </div>
 
         {/* Quantity Selector */}

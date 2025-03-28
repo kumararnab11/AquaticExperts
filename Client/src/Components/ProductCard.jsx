@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { update } from "../redux/UserSlice";
 
 const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
   const q = user ? user.cart.find((q) => q._id === _id) : null;
   const [quantity, setQuantity] = useState(q ? q.quantity : 0);
-
+  const dispatch=useDispatch();
   const navigate = useNavigate();
 
   const API_BASE_URL = "http://localhost:4000/api/v1";
@@ -15,13 +17,13 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
         `${API_BASE_URL}/additemcart`,
         {
           user: user._id,
-          item:{ _id, quantity:1}
+          item:{ _id, quantity:1,image:images?.[0],name,price,discount}
         },
         { withCredentials: true }
       );
 
       console.log("Updated user from DB:", response.data.updatedUser);
-
+      dispatch(update(response.data.updatedUser))
       return response.data.updatedUser;
     } catch (error) {
       console.error("Error updating address in DB:", error);
@@ -41,7 +43,7 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
       );
 
       console.log("Updated user from DB:", response.data.updatedUser);
-
+      dispatch(update(response.data.updatedUser))
       return response.data.updatedUser;
     } catch (error) {
       console.error("Error updating address in DB:", error);
@@ -55,13 +57,13 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
         `${API_BASE_URL}/updateitemcart`,
         {
           user: user._id,
-          item:{ _id, quantity:q}
+          item:{ _id, quantity:q,image:images?.[0],name,price,discount}
         },
         { withCredentials: true }
       );
 
       console.log("Updated user from DB:", response.data.updatedUser);
-
+      dispatch(update(response.data.updatedUser))
       return response.data.updatedUser;
     } catch (error) {
       console.error("Error updating address in DB:", error);
