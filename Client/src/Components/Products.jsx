@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import axios from "axios";
 
-const Products = () => {
+const Products = ({user}) => {
   const API_BASE_URL = "http://localhost:4000/api/v1";
   const [productData, setProductData] = useState([]);
 
@@ -24,7 +24,7 @@ const Products = () => {
       {/* Responsive Grid Layout - Like Flipkart */}
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 sm:gap-4 md:gap-5 justify-items-center">
         {productData.map((product) => (
-          <ProductCard key={product._id} {...product} />
+          <ProductCard key={product._id} {...product} user={user}/>
         ))}
       </div>
     </div>

@@ -10,7 +10,8 @@ const {addAddress,deleteAddress} = require("../controllers/address.js");
 const {logout}=require("../controllers/logout.js")
 const {getProduct,getAllProduct,getCategoryProduct} = require("../controllers/getproduct.controller.js")
 
-const {newProduct,updateProduct}=require("../controllers/product.controllers.js")
+const {newProduct,updateProduct}=require("../controllers/product.controllers.js");
+const { addItem, deleteItem, updateItem } = require("../controllers/cart.js");
 
 router.post("/login", login);
 router.post("/signup", signup);
@@ -22,6 +23,9 @@ router.post("/logout", logout);
 router.get("/getproduct/:productId",getProduct)
 router.get("/getallproduct",getAllProduct)
 router.post("/getcategoryproduct",getCategoryProduct)
+router.post("/additemcart",addItem)
+router.post("/deleteitemcart",deleteItem)
+router.post("/updateitemcart",updateItem)
 
 router.get("/dashboard", authMiddleware, getUser, (req, res) => {
     console.log("User in dashboard:", req.user);

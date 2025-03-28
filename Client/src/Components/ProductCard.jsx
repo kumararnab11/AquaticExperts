@@ -1,9 +1,87 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const ProductCard = ({ images, desc, price, discount, name, _id }) => {
-  const [quantity, setQuantity] = useState(0);
+const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
+  const q = user ? user.cart.find((q) => q._id === _id) : null;
+  const [quantity, setQuantity] = useState(q ? q.quantity : 0);
+
   const navigate = useNavigate();
+
+  const API_BASE_URL = "http://localhost:4000/api/v1";
+  const createDb = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/additemcart`,
+        {
+          user: user._id,
+          item:{ _id, quantity:1}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const deleteDb = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/deleteitemcart`,
+        {
+          user: user._id,
+          item:{ _id, quantity:0}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const updateDb = async (q) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/updateitemcart`,
+        {
+          user: user._id,
+          item:{ _id, quantity:q}
+        },
+        { withCredentials: true }
+      );
+
+      console.log("Updated user from DB:", response.data.updatedUser);
+
+      return response.data.updatedUser;
+    } catch (error) {
+      console.error("Error updating address in DB:", error);
+      return null;
+    }
+  };
+
+  const handleCart = (q,ind) =>{
+    if(ind==1){
+      createDb();
+    }
+    else if(ind==2){
+      if(q==0){
+        deleteDb();
+      }
+      else{
+        updateDb(q);
+      }
+    }
+  }
 
   return (
     <div
@@ -48,6 +126,7 @@ const ProductCard = ({ images, desc, price, discount, name, _id }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 setQuantity(1);
+                handleCart(1,1);
               }}
             >
               Add
@@ -58,7 +137,9 @@ const ProductCard = ({ images, desc, price, discount, name, _id }) => {
                 className="bg-gray-300 px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-bold hover:bg-gray-400 transition"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setQuantity(quantity - 1);
+                  const newQuantity=quantity-1;
+                  setQuantity(newQuantity);
+                  handleCart(newQuantity,2);
                 }}
               >
                 −
@@ -70,7 +151,9 @@ const ProductCard = ({ images, desc, price, discount, name, _id }) => {
                 className="bg-gray-300 px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-bold hover:bg-gray-400 transition"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setQuantity(quantity + 1);
+                  const newQuantity=quantity + 1
+                  setQuantity(newQuantity);
+                  handleCart(newQuantity,2);
                 }}
               >
                 +

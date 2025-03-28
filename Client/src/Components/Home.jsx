@@ -42,7 +42,7 @@ function Home() {
             <CategorySection />
             <BestSellersSlider />
             <LifeAyuSlider />
-            <Products />
+            <Products user={user}/>
         </div>
     );
 }
