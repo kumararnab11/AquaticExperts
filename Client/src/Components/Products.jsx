@@ -17,7 +17,7 @@ const Products = ({user}) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto mt-6 px-2 sm:px-4">
-      <h2 className="text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] underline underline-offset-4 mb-4">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-[#5657ba] to-[#000817] underline underline-offset-4 mb-4">
         Products
       </h2>
 

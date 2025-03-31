@@ -7,8 +7,10 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "../redux/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductCardExtended = () => {
+  const navigate=useNavigate();
   const user = useSelector((state)=>state.user);
   const dispatch=useDispatch();
   const settings = {
@@ -24,6 +26,7 @@ const ProductCardExtended = () => {
     images:[],
     name:"",
     desc:"",
+    price:"",
     discount:"",
     keypoints:[],
     benefits:[],
@@ -41,7 +44,7 @@ const ProductCardExtended = () => {
   }, [pid]);
 
   const q = user ? user.cart.find((q) => q._id === pid) : null;
-  const [quantity, setQuantity] = useState(q ? q.quantity : 0);
+  const [quantity, setQuantity] = useState(q ? (q.quantity?q.quantity:0 ): 0);
 
   const createDb = async () => {
     try {
@@ -117,12 +120,19 @@ const ProductCardExtended = () => {
     }
   }
 
-
+  const handleBuy = ()=>{
+    const order={
+      pid:pid,
+      count:1,
+      price:productData.price
+    }
+    navigate('/checkout/address', { state: { order } });
+  }
 
 
   return (
     <div className="bg-gray-200 min-h-screen flex justify-center items-center p-4">
-      <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
+      <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row p-6 lg:p-8 max-h-screen lg:max-h-[90vh]">
         
         <div className="lg:w-1/2 w-full lg:sticky top-10">
           <div className="sticky top-0 bg-white z-10">
@@ -185,7 +195,12 @@ const ProductCardExtended = () => {
                 </div>
               )}
 
-            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
+            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900] max-w-48"
+              onClick={(e)=>{
+                e.stopPropagation();
+                handleBuy();
+              }}
+            >
               Buy Now
             </button>
           </div>
@@ -271,7 +286,12 @@ const ProductCardExtended = () => {
                 </button>
               </div>
             )}
-            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]">
+            <button className="flex-1 bg-[#FF9900] text-white font-bold py-3 rounded-lg shadow-md hover:bg-[#E68900]"
+              onClick={(e)=>{
+                e.stopPropagation();
+                handleBuy();
+              }}
+            >
               Buy Now
             </button>
           </div>

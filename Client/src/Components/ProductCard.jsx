@@ -22,6 +22,8 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
         { withCredentials: true }
       );
 
+      setQuantity(1);
+
       console.log("Updated user from DB:", response.data.updatedUser);
       dispatch(update(response.data.updatedUser))
       return response.data.updatedUser;
@@ -41,6 +43,8 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
         },
         { withCredentials: true }
       );
+
+      setQuantity(0)
 
       console.log("Updated user from DB:", response.data.updatedUser);
       dispatch(update(response.data.updatedUser))
@@ -62,6 +66,8 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
         { withCredentials: true }
       );
 
+      setQuantity(q);
+
       console.log("Updated user from DB:", response.data.updatedUser);
       dispatch(update(response.data.updatedUser))
       return response.data.updatedUser;
@@ -72,6 +78,10 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
   };
 
   const handleCart = (q,ind) =>{
+    if(!user){
+      alert("login please");
+      return;
+    }
     if(ind==1){
       createDb();
     }
@@ -127,7 +137,6 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
               className="bg-[#FF9900] text-black px-3 py-[4px] rounded-md text-xs sm:text-sm md:text-base font-semibold hover:bg-[#E68A00] transition-shadow shadow-md"
               onClick={(e) => {
                 e.stopPropagation();
-                setQuantity(1);
                 handleCart(1,1);
               }}
             >
@@ -140,7 +149,6 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   const newQuantity=quantity-1;
-                  setQuantity(newQuantity);
                   handleCart(newQuantity,2);
                 }}
               >
@@ -154,7 +162,6 @@ const ProductCard = ({ images, desc, price, discount, name, _id ,user}) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   const newQuantity=quantity + 1
-                  setQuantity(newQuantity);
                   handleCart(newQuantity,2);
                 }}
               >

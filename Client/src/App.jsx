@@ -22,6 +22,8 @@ import Home from './Components/Home'
 import CartCapsule from './Components/CartCapsule'
 import NewProduct from './Admin/NewProduct'
 import UpdateProduct from './Admin/UpdateProduct'
+import AddressSelection from './Components/AddressSelection'
+import Payment from '../src/Components/Payment'
 
 function App() {
   const user = useSelector((state)=>state.user);
@@ -168,6 +170,14 @@ function App() {
       {
         path:'*',
         element: <NotFound/>
+      },
+      {
+        path:'checkout/address',
+        element:<AddressSelection/>
+      },
+      {
+        path:"payment",
+        element:<Payment/>
       }
     ]
   )
