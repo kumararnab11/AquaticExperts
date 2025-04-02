@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 
 const AddressSelection = () => {
+    const navigate=useNavigate();
     const location = useLocation();
     const { order } = location.state;
     console.log(order);
@@ -31,13 +32,13 @@ const AddressSelection = () => {
 
     const handleContinue = () => {
         if (selectedAddress !== null) {
-            order.address=addresses[selectedAddress];
+            order.items[0].address = addresses[selectedAddress];
             console.log(order);
-            
+            navigate('/payment', { state: { order } });
         } else {
             alert('Please select an address to continue.');
         }
-    };
+    };    
 
     return (
         <div className="p-4 space-y-4">

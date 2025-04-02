@@ -121,11 +121,15 @@ const ProductCardExtended = () => {
   }
 
   const handleBuy = ()=>{
-    const order={
-      pid:pid,
-      count:1,
-      price:productData.price
-    }
+    const order = {
+      items: [
+        {
+          pid: pid,
+          count: 1,
+          price: productData.price,
+        }
+      ]
+    };    
     navigate('/checkout/address', { state: { order } });
   }
 

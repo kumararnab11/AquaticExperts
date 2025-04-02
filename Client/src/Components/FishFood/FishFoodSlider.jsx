@@ -46,7 +46,7 @@ const CustomPrevArrow = ({ onClick }) => (
   </button>
 );
 
-const CategorySection = () => {
+const FishFoodSlider = () => {
   const navigate = useNavigate();
   const settings = {
     dots: true,
@@ -95,4 +95,4 @@ const CategorySection = () => {
   );
 };
 
-export default CategorySection;
+export default FishFoodSlider;
