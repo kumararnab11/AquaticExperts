@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../ProductCard";
-import axios from 'axios'
-import { useState,useEffect } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const FishFoodProducts = () => {
+  const user = useSelector((state)=>state.user);
   const API_BASE_URL = "http://localhost:4000/api/v1";
   const [productData, setProductData] = useState([]);
-  
+
   useEffect(() => {
     //console.log("refreshed")
     axios.post(`${API_BASE_URL}/getcategoryproduct`,{category:'Fish Food'})
@@ -16,15 +17,17 @@ const FishFoodProducts = () => {
       })
       .catch(error => console.error("Error fetching product data:", error));
   }, []);
+
   return (
-    <div className="w-full max-w-6xl mx-auto mt-10 px-4">
-      <h2 className="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-[#3d0160] to-[#7ca4f4] underline underline-offset-8 mb-6">
+    <div className="w-full max-w-7xl mx-auto mt-6 px-2 sm:px-4">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-br from-[#5657ba] to-[#000817] underline underline-offset-4 mb-4">
         Fish Foods
       </h2>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+
+      {/* Responsive Grid Layout - Like Flipkart */}
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 sm:gap-4 md:gap-5 justify-items-center">
         {productData.map((product) => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard key={product._id} {...product} user={user}/>
         ))}
       </div>
     </div>
