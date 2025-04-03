@@ -125,7 +125,7 @@ const ProductCardExtended = () => {
       items: [
         {
           pid: pid,
-          count: 1,
+          quantity: 1,
           price: productData.price,
         }
       ]

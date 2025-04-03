@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import CartCard from "./CartCard";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 const API_BASE_URL = "http://localhost:4000/api/v1";
 
 const Cart = ({ cartItems: initialCartItems }) => {
+  const navigate=useNavigate();
   const [cartItems, setCartItems] = useState(initialCartItems);
   console.log("cartitems",cartItems)
 
@@ -64,6 +66,21 @@ const Cart = ({ cartItems: initialCartItems }) => {
     cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
   );
 
+  const handleBuy = () => {
+    console.log("handlebuy");
+    const order = {
+      items: [],
+    };
+  
+    cartItems.forEach((item) => {
+      const newItem = { ...item };
+      order.items.push(newItem);
+    });
+
+    navigate('/checkout/address', { state: { order } });
+  };
+  
+
   return (
     <div className="max-w-4xl mx-auto my-8 p-4 bg-[#f3f3f3]">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">Shopping Cart</h2>
@@ -96,7 +113,9 @@ const Cart = ({ cartItems: initialCartItems }) => {
             Subtotal ({cartItems.length} items):{" "}
             <span className="font-semibold text-gray-900">{totalPrice}</span>
           </h3>
-          <button className="w-full mt-4 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50">
+          <button className="w-full mt-4 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+            onClick={handleBuy}
+          >
             Proceed to Buy
           </button>
         </div>
@@ -108,7 +127,9 @@ const Cart = ({ cartItems: initialCartItems }) => {
           <span>Subtotal ({cartItems.length} items):</span>
           <span className="text-gray-900 font-semibold">{totalPrice}</span>
         </div>
-        <button className="w-full px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50">
+        <button className="w-full px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-sm font-medium rounded-md shadow focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+          onClick={handleBuy}
+        >
           Proceed to Buy
         </button>
       </div>
