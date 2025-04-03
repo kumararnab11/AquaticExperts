@@ -44,6 +44,10 @@ const Login = () => {
     handleLogin();
   };
 
+  const forgotPassword = ()=>{
+    navigate('/forgotpassword')
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 px-4">
       <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row w-full max-w-md md:max-w-2xl overflow-hidden">
@@ -100,7 +104,7 @@ const Login = () => {
 
             {/* Forgot Password */}
             <div className="text-right mb-4">
-              <a href="#" className="text-teal-700 text-sm">Forgot password?</a>
+              <button onClick={forgotPassword} className="text-teal-700 text-sm">Forgot password?</button>
             </div>
 
             <button

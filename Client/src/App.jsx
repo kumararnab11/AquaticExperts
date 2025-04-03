@@ -24,6 +24,7 @@ import NewProduct from './Admin/NewProduct'
 import UpdateProduct from './Admin/UpdateProduct'
 import AddressSelection from './Components/AddressSelection'
 import Payment from '../src/Components/Payment'
+import ForgotPassword from './ForgotPasword'
 
 function App() {
   const user = useSelector((state)=>state.user);
@@ -55,6 +56,10 @@ function App() {
       {
         path:'/login',
         element:<Login/>
+      },
+      {
+        path:'/forgotpassword',
+        element:<ForgotPassword/>
       },
       {
         path:'/:pid',
