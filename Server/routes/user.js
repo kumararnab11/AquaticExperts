@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { login, signup } = require("../controllers/Auth");
+const { login, signup,forgotpassword } = require("../controllers/Auth");
 const { sendotp } = require("../controllers/sendotp");
 const { verifyotp } = require("../controllers/verifyotp");
 const { authMiddleware } = require("../Middlewires/auth");
@@ -15,6 +15,7 @@ const { addItem, deleteItem, updateItem } = require("../controllers/cart.js");
 
 router.post("/login", login);
 router.post("/signup", signup);
+router.put("/forgotpassword", forgotpassword);
 router.post("/sendotp", sendotp);
 router.post("/verifyotp", verifyotp);
 router.put("/updateaddress", addAddress);

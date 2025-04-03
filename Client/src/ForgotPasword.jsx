@@ -14,9 +14,9 @@ const ForgotPassword = () => {
   const [showPassword,setShowPassword] = useState(false)
 
   // ✅ Function to send OTP
-  const sendOtp = async (userEmail) => {
+  const sendOtp = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/sendotp`, { email: userEmail });
+      const response = await axios.post(`${API_BASE_URL}/sendotp`, { email});
   
       if (response.data.success) {
         console.log("OTP Sent Successfully:", response.data);
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
         console.log("OTP Verified Successfully:", response.data);
         toast.success(response.data.message || "OTP Verified Successfully!");
         updateRegState(false);
-        await createUser(); // Ensure user is created only after OTP verification
+        await updateUser(); // Ensure user is created only after OTP verification
         return response.data;
       } else {
         toast.error(response.data.message || "OTP verification failed!");
@@ -73,10 +73,10 @@ const ForgotPassword = () => {
   };
   
 
-  // ✅ Function to create a user
-  const createUser = async () => {
+  // ✅ Function to update a user
+  const updateUser = async () => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/signup`, { name, email, password });
+      const response = await axios.put(`${API_BASE_URL}/forgotpassword`, {email, password });
   
       if (response.data.success) {
         toast.success(response.data.message);
@@ -204,6 +204,7 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-teal-400 to-teal-600 text-black py-3 rounded-lg font-semibold shadow-md"
+                onClick={updateUser}
               >
                 {regState? "Verify Otp" : "Send OTP"}
               </button>

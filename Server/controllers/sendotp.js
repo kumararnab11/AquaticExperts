@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const OtpUser = require("../models/otp");
 
 exports.sendotp = async (req, res) => {
+    //console.log(req.body);
     try {
         const usermail = req.body.email;
         const sendermail = process.env.SENDER_MAIL;
