@@ -25,6 +25,8 @@ import UpdateProduct from './Admin/UpdateProduct'
 import AddressSelection from './Components/AddressSelection'
 import Payment from '../src/Components/Payment'
 import ForgotPassword from './ForgotPasword'
+import AdminNav from './Admin/AdminNav'
+import AllProducts from './Admin/AllProducts'
 
 function App() {
   const user = useSelector((state)=>state.user);
@@ -32,15 +34,23 @@ function App() {
   const router=createBrowserRouter(
     [ 
       {
-        path:'/admin/check',
+        path:'/qtteuuiwoeyguq3y784wjhfsl9-jhkh/admin',
         element:<div className='bg-gray-200'>
-        <NewProduct/>
+          <AdminNav/>
+          <NewProduct/>
         </div>
       },
       {
-        path:'/admin/updateproduct/:productId',
+        path:'/qtteuuiwoeyguq3y784wjhfsl9-jhkh/admin/updateproduct',
         element:<div className='bg-gray-200'>
-        <UpdateProduct/>
+          <AdminNav/>
+          <AllProducts/>
+        </div>
+      },
+      {
+        path:'/qtteuuiwoeyguq3y784wjhfsl9-jhkh/admin/updateproduct/:productId',
+        element:<div className='bg-gray-200'>
+          <UpdateProduct/>
         </div>
       },
       {
