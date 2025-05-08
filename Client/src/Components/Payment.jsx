@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 const PaymentComponent = () => {
     const location = useLocation();
     const { order } = location.state;
-    const amount = 0;
+    let amount = 0;
     order.items.map((item)=>{
         amount+=(item.price*item.quantity);
     })
